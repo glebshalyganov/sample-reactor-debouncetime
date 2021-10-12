@@ -26,7 +26,8 @@ public class Main {
         final WebClient webClient = WebClient.create("http://localhost:8080/api/search");
 
         typings
-                .sampleTimeout(o -> Mono.empty().delaySubscription(Duration.ofMillis(100)))
+                .sample(Duration.ofMillis(100)) //debounceTime
+//                .sampleTimeout(o -> Mono.empty().delaySubscription(Duration.ofMillis(100))) //debounce
                 .concatMap(o -> webClient
                         .get()
                         .uri(uriBuilder -> uriBuilder.queryParam("text", o).build())
